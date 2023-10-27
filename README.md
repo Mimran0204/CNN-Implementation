@@ -53,4 +53,20 @@ This variable specifies the target size for your images. In this case, the image
 # batch_size:
 This variable determines the batch size for your data generator. The batch size is the number of images processed in each iteration during training.
 
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/397700ed-8f17-4c5f-b31e-6024c3e7a257)
+train_datagen and valid_datagen: These are instances of ImageDataGenerator from Keras. These generators are used for data augmentation and preprocessing. Here's a breakdown of the data augmentation options applied in the train_datagen:
+
+rescale: Images are rescaled so that their pixel values are in the range [0, 1].
+
+rotation_range: Randomly rotates the images by up to 20 degrees.
+
+width_shift_range and height_shift_range: Randomly shifts the width and height of the images by up to 20%.
+
+shear_range: Randomly applies shear transformation.
+
+zoom_range: Randomly zooms in on the images by up to 20%.
+
+horizontal_flip: Randomly flips the images horizontally (left to right).
+
+fill_mode: Determines how the generator fills in newly created pixels after applying transformations. In this case, it's set to 'nearest,' which means it will fill with the nearest available pixel value.
 
