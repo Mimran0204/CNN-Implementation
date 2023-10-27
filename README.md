@@ -20,16 +20,16 @@ After mounted the Google Drive using this code, we can access the files and fold
 ![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/824638d1-98bd-430d-93d2-43cdf811564f)
 ![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/e671b27d-2774-4bb9-9974-ca4eb72427d5)
 
-# import tensorflow as tf: 
+import tensorflow as tf: 
 This imports the TensorFlow library, which is a popular open-source machine learning framework for building and training neural networks.
 
-# from tensorflow.keras.preprocessing.image import ImageDataGenerator: 
+from tensorflow.keras.preprocessing.image import ImageDataGenerator: 
 This imports the ImageDataGenerator class from the tensorflow.keras.preprocessing.image module. ImageDataGenerator is a tool for data augmentation and preprocessing when working with image data, which is commonly used when training neural networks on images.
 
-# from tensorflow.keras.models import Sequential: 
+from tensorflow.keras.models import Sequential: 
 This imports the Sequential class from tensorflow.keras.models. The Sequential model is used for building neural networks layer by layer in a linear or sequential manner.
 
-# from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense: 
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense: 
 This imports specific layer types commonly used in neural network architectures.
 
 Conv2D is a 2D convolutional layer used for feature extraction in convolutional neural networks (CNNs).
@@ -40,17 +40,16 @@ Flatten is a layer that flattens the output of previous layers to prepare it for
 
 Dense is a fully connected layer, also known as a dense layer, used for classification or regression tasks.
 
-# from sklearn.model_selection import train_test_split: 
+from sklearn.model_selection import train_test_split: 
 This imports the train_test_split function from the sklearn.model_selection module. This function is used to split your dataset into training and testing sets, which is a common step when building and evaluating machine learning models.
 
 ![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/c57c97c6-aad9-4bae-9c61-fdc1c09a496a)
 
-# train_dir and valid_dir: 
+train_dir and valid_dir: 
 These variables specify the directories containing your training and validation datasets, respectively. In this case, both are set to 'hand_written_digits'. It's assumed that you have your image data organized within these directories, and you'll use these directories to generate training and validation data.
-
-# image_size: 
+image_size: 
 This variable specifies the target size for your images. In this case, the images will be resized to 100x100 pixels.
-# batch_size:
+batch_size:
 This variable determines the batch size for your data generator. The batch size is the number of images processed in each iteration during training.
 
 ![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/397700ed-8f17-4c5f-b31e-6024c3e7a257)
