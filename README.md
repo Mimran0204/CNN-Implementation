@@ -16,3 +16,6 @@ from google.colab import drive: This line imports the drive module from the goog
 drive.mount('/content/drive'): This line mounts the Google Drive at the specified directory, which is /content/drive in the Colab notebook. After executing this line, we'll be prompted to authenticate and give permission for Colab to access your Google Drive. Once authorized, The Google Drive will be accessible as if it were a local directory in the Colab environment.
 
 After mounted the Google Drive using this code, we can access the files and folders, read and write data, and perform various data analysis or machine learning tasks that involve your Google Drive data within your Colab notebook. It's a convenient way to work with cloud-based data and files in a Colab environment.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/824638d1-98bd-430d-93d2-43cdf811564f)
+
