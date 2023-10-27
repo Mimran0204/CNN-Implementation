@@ -156,7 +156,8 @@ So, when we run this code, it will calculate and print the validation accuracy o
 ![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/59e3deda-3342-498d-880f-dd3fb34b2d0b)
 
 
-
+# Task 2
+Now this time do Task 1 again by fine-tuning the pre-trained model of your choice. Contents of week 6 and week 7 are focused on the concept of transfer learning so the main objective of this task is to solidify and reinforce your core concepts of transfer learning and how to fine-tune a pre-trained model trained on different dataset for your own custom dataset. Observe the accuracy of the model and compare it with the accuracy of the model in task 1.
 
 
 
