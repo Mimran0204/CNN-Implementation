@@ -20,16 +20,16 @@ After mounted the Google Drive using this code, we can access the files and fold
 ![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/824638d1-98bd-430d-93d2-43cdf811564f)
 ![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/e671b27d-2774-4bb9-9974-ca4eb72427d5)
 
-#import tensorflow as tf: 
+# import tensorflow as tf: 
 This imports the TensorFlow library, which is a popular open-source machine learning framework for building and training neural networks.
 
-#from tensorflow.keras.preprocessing.image import ImageDataGenerator: 
+# from tensorflow.keras.preprocessing.image import ImageDataGenerator: 
 This imports the ImageDataGenerator class from the tensorflow.keras.preprocessing.image module. ImageDataGenerator is a tool for data augmentation and preprocessing when working with image data, which is commonly used when training neural networks on images.
 
-#from tensorflow.keras.models import Sequential: 
+# from tensorflow.keras.models import Sequential: 
 This imports the Sequential class from tensorflow.keras.models. The Sequential model is used for building neural networks layer by layer in a linear or sequential manner.
 
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense: 
+# from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense: 
 This imports specific layer types commonly used in neural network architectures.
 
 Conv2D is a 2D convolutional layer used for feature extraction in convolutional neural networks (CNNs).
