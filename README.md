@@ -158,6 +158,134 @@ So, when we run this code, it will calculate and print the validation accuracy o
 # Task 2
 Now this time do Task 1 again by fine-tuning the pre-trained model of your choice. Contents of week 6 and week 7 are focused on the concept of transfer learning so the main objective of this task is to solidify and reinforce your core concepts of transfer learning and how to fine-tune a pre-trained model trained on different dataset for your own custom dataset. Observe the accuracy of the model and compare it with the accuracy of the model in task 1.
 
+# Solution
+from google.colab import drive: This line imports the drive module from the google.colab library. This module provides functions for working with Google Drive in Colab.
+
+drive.mount('/content/drive'): This line mounts the Google Drive at the specified directory, which is /content/drive in the Colab notebook. After executing this line, we'll be prompted to authenticate and give permission for Colab to access your Google Drive. Once authorized, The Google Drive will be accessible as if it were a local directory in the Colab environment. After mounted the Google Drive using this code, we can access the files and folders, read and write data, and perform various data analysis or machine learning tasks that involve your Google Drive data within your Colab notebook. It's a convenient way to work with cloud-based data and files in a Colab environment.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/f9f0142f-d762-4ab8-9f30-7d95b29157b7)
+
+
+Importing necessary libraries: This part of the code imports TensorFlow and various components required for building a deep learning model, including image data preprocessing tools, the VGG16 architecture, layers, models, and the Adam optimizer. Next, it's expected that you would define and configure an image data generator for preprocessing your image data. However, the code you provided is incomplete, and there is no configuration for the data generator.
+
+base_model = VGG16(weights='imagenet', include_top=False) This line loads the VGG16 model pretrained on the ImageNet dataset. The include_top=False argument means that the top classification layers of VGG16 (fully connected layers) are excluded, and you will add your own custom classification layers.
+
+Here, we are adding some custom layers on top of the VGG16 model. The first thing is to apply a global average pooling layer, followed by a dense (fully connected) layer with ReLU activation, and then another dense layer with a softmax activation function. The number of units in the last dense layer (num_classes) should be equal to the number of classes in your classification problem.
+
+model = Model(inputs=base_model.input, outputs=predictions) This line creates a new model that combines the base VGG16 model with your custom classification layers. The input is set to the input of the VGG16 model, and the output is set to your custom predictions.
+
+model.compile(optimizer=Adam(lr=0.0001), loss='categorical_crossentropy', metrics=['accuracy']) The model, specifying the optimizer (Adam with a learning rate of 0.0001), the loss function (categorical cross-entropy, typically used for classification problems), and the evaluation metric (accuracy)
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/fc173fed-c9dd-4050-a264-bcac4205daa9)
+
+The provided code sets up an ImageDataGenerator object for data augmentation. Data augmentation is a technique commonly used in deep learning for image classification tasks to artificially increase the size of the training dataset by applying various random transformations to the original images. This helps improve the model's generalization and robustness.
+
+rescale=1.0 / 255.0: This parameter rescales the pixel values of the input images. In this case, it divides each pixel value by 255.0, which is a common practice to ensure that pixel values are in the range [0, 1].
+
+rotation_range=20: This parameter specifies the range within which random rotations (in degrees) can be applied to the images. In this case, images can be randomly rotated up to 20 degrees in either direction.
+
+width_shift_range=0.2: This parameter defines the range for random horizontal shifts (as a fraction of the total width of the image). A value of 0.2 means that images can be shifted horizontally by up to 20% of their width in either direction.
+
+height_shift_range=0.2: Similar to width_shift_range, this parameter defines the range for random vertical shifts (as a fraction of the total height of the image). A value of 0.2 means that images can be shifted vertically by up to 20% of their height in either direction.
+
+shear_range=0.2: This parameter controls the shear intensity. Shear transforms slant the shapes of objects in the images. A value of 0.2 means that shear transformations can be applied up to 20%.
+
+zoom_range=0.2: The zoom range specifies the range for random zooming in or out of the images. A value of 0.2 means that images can be zoomed in or out by up to 20%.
+
+horizontal_flip=False: This parameter controls whether random horizontal flips are applied to the images. If set to True, images may be horizontally flipped with a 50% probability.
+
+fill_mode='nearest': The fill mode determines how pixel values are filled when the above transformations cause empty areas in the image. In this case, 'nearest' indicates that the nearest pixels are used to fill the empty regions.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/c3f93395-a4c2-41bc-bf9f-9c3b65261c40)
+
+The provided code is setting up an image data generator and a generator for the training dataset. It appears to be part of a deep learning pipeline for image classification using TensorFlow and Keras. Let's break down the code:
+
+valid_datagen = ImageDataGenerator(rescale=1.0 / 255.0): This line creates an ImageDataGenerator object for preprocessing the validation data. It performs pixel value rescaling by dividing each pixel value by 255.0 to ensure that pixel values are in the range [0, 1].
+
+train_generator = train_datagen.flow_from_directory(train_dir, target_size=image_size, batch_size=batch_size, class_mode='categorical': This line sets up a generator for the training data by using the flow_from_directory method. Here's what each argument does:
+
+train_dir: This should be a directory containing the training images. The generator will read and preprocess images from this directory.
+
+target_size: This is the size to which the images will be resized during preprocessing. It's typically set to a tuple, e.g., image_size = (224, 224), to ensure that all images are the same size for consistency.
+
+batch_size: This parameter specifies the batch size for training. It determines how many images are processed in each training iteration.
+
+class_mode='categorical': This parameter specifies that the data is used for categorical classification. It means that the generator will expect the images to be organized into subdirectories, where each subdirectory represents a class, and it will generate labels accordingly. This is common for image classification tasks.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/8388ad86-43ff-4468-9d9f-2949adcc46ea)
+
+base_model = VGG16(weights='imagenet', include_top=False, input_shape=(100, 100, 3)):
+
+This line creates the VGG16 model with the following options:
+
+weights='imagenet':It loads pre-trained weights from the ImageNet dataset, which is a common practice for transfer learning in image classification tasks.
+
+include_top=False: This excludes the top (classification) layer of the VGG16 model, allowing you to add your custom classification layers.
+
+input_shape=(100, 100, 3): It specifies the input shape for your images. In this case, it's set to (100, 100, 3), which means that the model expects input images with a resolution of 100x100 pixels and three color channels (RGB).
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/c757906a-ecca-451f-a7ce-4cbd7061d603)
+
+The provided code constructs a new Keras model by combining the base VGG16 model with the custom classification layers you've defined earlier. Additionally, it freezes (sets as non-trainable) all the layers in the base VGG16 model. Let's break it down step by step:
+
+model = Model(inputs=base_model.input, outputs=predictions):
+
+This line creates a new Keras model (model) by specifying its inputs and outputs. inputs=base_model.input sets the inputs of the new model to be the same as the inputs of the base_model, which is the VGG16 model with custom input shape.
+
+outputs=predictions sets the outputs of the new model to be the predictions generated by the custom layers you defined earlier. These custom layers are connected to the output of the base VGG16 model.
+
+for layer in base_model.layers: layer.trainable = False:
+
+This code iterates through all the layers in the base_model, which is the VGG16 model. For each layer, it sets the trainable attribute to False. This effectively freezes all the layers in the base VGG16 model, preventing them from being updated during the training process.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/b9f84aa3-ea70-4b45-9616-89ea824f4ec3)
+
+model.compile(optimizer=Adam(learning_rate=0.0001), loss='categorical_crossentropy', metrics=['accuracy']):
+
+This line compiles the model. It specifies: optimizer=Adam(learning_rate=0.0001): The Adam optimizer with a learning rate of 0.0001 is used to update the model's weights during training. loss='categorical_crossentropy': The categorical cross-entropy loss function, which is commonly used for multi-class classification tasks. metrics=['accuracy']: During training, the model will track and report the classification accuracy as one of the evaluation metrics. epochs = 10: This line sets the number of training epochs. The model will be trained for 10 complete passes through the training dataset.
+
+history = model.fit(...): This is the training loop that fits the model to the training data and validates it on the validation data. The key arguments are as follows:
+
+train_generator: This is the generator for the training dataset, which provides batches of training data during training. steps_per_epoch=train_generator.samples // batch_size: This parameter determines how many steps (batches) are processed per training epoch. It's calculated based on the number of samples in the training dataset and the specified batch size.
+
+validation_data=valid_generator: This is the generator for the validation dataset, which provides batches of validation data for model evaluation during training.
+
+validation_steps=valid_generator.samples // batch_size: Similar to steps_per_epoch, this parameter determines how many steps (batches) are processed per validation epoch, calculated based on the validation dataset size and batch size.
+
+epochs=epochs: This specifies the number of training epochs, as previously defined.
+
+During training, the model's weights are updated using the optimizer (Adam) to minimize the categorical cross-entropy loss. The model's performance is evaluated on both the training and validation datasets, and the training progress (loss and accuracy) is stored in the history variable.
+
+After training for the specified number of epochs, the history object will contain information about the training process, such as the loss and accuracy at each epoch. This information can be used to analyze and visualize how the model's performance evolves over the training process.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/d99773f4-9e1d-4e48-a3b1-6879c9ce2ffa)
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/06060671-f563-49d0-abed-80477278ccdc)
+
+accuracy = model.evaluate(valid_generator)[1]:
+
+model.evaluate(valid_generator) computes the model's loss and metrics on the validation dataset using the validation data generator (valid_generator).
+
+[1] accesses the second element of the list returned by model.evaluate, which corresponds to the accuracy. In the list, the first element is the loss, and the second element is the accuracy.
+
+print("Fine-tuned Model Validation Accuracy: {:.2f}%".format(accuracy * 100)
+
+This line prints the validation accuracy in a human-readable format. It takes the accuracy value (a decimal between 0 and 1) and multiplies it by 100 to convert it to a percentage.
+
+The "{:.2f}%".format(accuracy * 100) part of the code formats the accuracy value to display two decimal places followed by a percentage sign. So, the code calculates the validation accuracy of the fine-tuned model and then prints it as a percentage. This provides an indication of how well the model is performing on the validation dataset after the specified number of training epochs.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/b5a30307-e7da-441d-a8a5-b82c1b7cb2da)
+
+So, the code calculates the validation accuracy of the fine-tuned model and then prints it as a percentage. This provides an indication of how well the model is performing on the validation dataset after the specified number of training epochs.
+
+
+
+
+
+
+
+
+
 
 
 
