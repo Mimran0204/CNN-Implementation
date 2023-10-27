@@ -40,5 +40,6 @@ Flatten is a layer that flattens the output of previous layers to prepare it for
 
 Dense is a fully connected layer, also known as a dense layer, used for classification or regression tasks.
 
-from sklearn.model_selection import train_test_split: This imports the train_test_split function from the sklearn.model_selection module. This function is used to split your dataset into training and testing sets, which is a common step when building and evaluating machine learning models.
+# from sklearn.model_selection import train_test_split: 
+This imports the train_test_split function from the sklearn.model_selection module. This function is used to split your dataset into training and testing sets, which is a common step when building and evaluating machine learning models.
 
