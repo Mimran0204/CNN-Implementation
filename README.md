@@ -278,6 +278,120 @@ The "{:.2f}%".format(accuracy * 100) part of the code formats the accuracy value
 
 So, the code calculates the validation accuracy of the fine-tuned model and then prints it as a percentage. This provides an indication of how well the model is performing on the validation dataset after the specified number of training epochs.
 
+# Task 3
+Write a Python program that allows users to select a query image from folder “query_images” and retrieve the top N similar images from a local folder named “images_database”. Put N=4 for this task so the system must spit out 4 similar images from the given folder closely similar to your query image. Your program should use a pre-trained CNN model (e.g., VGG16 or ResNet) for feature extraction and a similarity metric (e.g., Euclidean distance) for retrieval.
+Ensure that your program can handle images in various formats (e.g., JPG, PNG, JPEG).
+Provide clear instructions on how to run your program and demonstrate its functionality using sample query images. This coding task allows you to apply your understanding of CNN-based feature extraction to build a practical image retrieval system, like the technologies used by Google Lens.
+
+# Solution
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/efd1af16-671e-4429-8835-ed702602023b)
+
+Importing necessary libraries/modules:
+
+os: Operating system interface for file and directory operations.
+
+cv2: OpenCV (Open Source Computer Vision Library) for image processing and computer vision.
+
+numpy: NumPy is used for numerical operations, particularly for handling arrays and matrices.
+
+tensorflow.keras.applications.VGG16: Importing the VGG16 model, a popular deep convolutional neural network (CNN) for image classification tasks, from TensorFlow's Keras applications.
+
+tensorflow.keras.applications.vgg16.preprocess_input: A function for preprocessing images for VGG16 model.
+
+sklearn.metrics.pairwise.euclidean_distances: Importing a function to calculate the pairwise Euclidean distances between points in a dataset. matplotlib.pyplot: Importing Matplotlib for data visualization.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/413ff4b0-5dab-4fd7-a24d-cf3062b53f6f)
+
+query_folder is set to the string "query_images". This variable likely represents the folder path where query images are located.
+
+Image_databases is also set to the string "query_images". This variable appears to represent the folder path where image databases or reference images are located. It's worth noting that both query_folder and Image_databases are set to the same path in your snippet. In a real-world scenario, these paths would typically point to different folders containing query images and reference images.
+
+N is set to the integer 4.This variable's purpose is not clear from the provided code snippet. It could represent a count or a threshold value, but its meaning and usage depend on the context of the larger script.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/a8536670-239c-47c9-a8e4-826cde6b8f72)
+
+Model Initialization: The code first initializes a VGG16 model by loading pre-trained weights from the 'imagenet' dataset. This model is configured to exclude the top classification layers, and the input shape is set to (224, 224, 3). This means that the model expects images with a resolution of 224x224 pixels and three color channels (RGB).
+
+extract_features Function: This function is defined to extract features from an image using the pre-trained VGG16 model. It takes two arguments:
+
+image_path: The file path to the input image that you want to extract features from. model: The pre-trained VGG16 model.
+
+Loading and Preprocessing Image: Inside the extract_features function:
+
+It loads the image located at the image_path using OpenCV (cv2.imread).
+
+If the image cannot be loaded (e.g., if the file doesn't exist or is in an unsupported format), it prints an error message and returns None.
+
+It converts the image from BGR format to RGB format using cv2.cvtColor. Resizes the image to match the expected input shape of the VGG16 model (224x224 pixels).
+
+Preprocesses the image using preprocess_input, which performs normalization and preprocessing specific to the VGG16 model. Expands the dimensions of the image to make it compatible with the model's input shape. The resulting image has shape (1, 224, 224, 3), where the first dimension is for batching (batch size 1).
+
+Feature Extraction: The preprocessed image is then passed through the VGG16 model using model.predict(image). This step extracts a feature representation of the input image using the layers of the pre-trained model.
+
+Return Features: The extracted features are returned from the function.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/3cbcc858-fdc4-4937-b723-a50ed94e9e7f)
+
+The provided code snippet appears to iterate through a directory containing image files (assumed to be in the "query_images" folder) and computes similarities between those images and a reference image using previously defined functions. Let's break it down step by step:
+
+similarities = {}: This line initializes an empty dictionary called similarities to store the computed similarities.
+
+for filename in os.listdir("query_images"):: This line starts a loop to iterate over the files in the "query_images" directory using os.listdir(). It will consider all files (images) in that directory.
+
+if filename.endswith((".jpg", ".jpeg", ".png")):: This line checks if the current filename has one of the specified image file extensions (".jpg", ".jpeg", or ".png"). If it does, the code proceeds with the following operations for that file; otherwise, it skips non-image files.
+
+image_path = os.path.join(Image_databases, filename): This line constructs the full path to the image by joining the Image_databases (which you've set as "query_images") with the current filename. This assumes that the reference images are stored in the "query_images" directory.
+
+image_features = extract_features(image_path, model): For each image, it calls the extract_features function (presumably defined earlier in the code) to extract features from the image using the provided VGG16 model (model). The extracted features are stored in the image_features variable.
+
+After running this loop, you will have extracted features for each image in the "query_images" directory that matches the specified file extensions.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/e6e39d7e-5e0f-4d2a-9ab4-b76c06a098ec)
+
+The provided code is part of a larger script for computing similarity scores between a query image and a set of database images.
+
+if query_features is not None and image_features is not None:: This conditional statement checks if both the query_features and image_features variables are not None. This is a check to ensure that feature extraction was successful for both the query image and the database image.
+
+similarity_score = euclidean_distances(query_features.reshape(1, -1), image_features.reshape(1, -1)): If feature extraction was successful for both images, this line calculates the Euclidean distance between the feature vectors of the query image and the database image. It uses the euclidean_distances function from the sklearn.metrics.pairwise module. This distance score is a measure of dissimilarity, where lower values indicate greater similarity.
+
+if not np.isnan(similarity_score).any():: This line checks if any of the values in the similarity_score array are not NaN (not-a-number). This check is essential because if feature extraction fails for any image, the similarity score could be NaN, and you want to skip such cases.
+
+similarity_score = similarity_score[0][0]: If the similarity_score is not NaN, this line extracts the actual similarity score (the single value in the similarity_score array) and assigns it to the similarity_score variable.
+
+similarities[filename] = similarity_score: This line stores the computed similarity score in the similarities dictionary, where the filename of the database image is the key, and the similarity score is the value.
+
+If any of the above conditions are not met, it means that either feature extraction failed for the query image, the database image, or the similarity score was NaN. In such cases:
+
+The first else block is used to handle cases where feature extraction failed for either the query or database image. It prints a message indicating that the image is skipped.
+
+The second else block handles cases where the similarity score is NaN (e.g., due to failed feature extraction), and it also prints a message indicating that the image is skipped.
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/c6443087-b508-49b5-a003-73521253542c)
+
+The provided code is responsible for displaying the top N similar images from the similarities dictionary, which presumably contains similarity scores between a query image and a set of database images.
+
+Here's what the code does:
+
+sorted_similarities = {k: v for k, v in sorted(similarities.items(), key=lambda item: item[1])}:
+
+This line sorts the similarities dictionary based on the similarity scores (values) in ascending order. It creates a new dictionary sorted_similarities where the keys are the filenames of the images, and the values are the similarity scores, sorted from the lowest to the highest.
+
+top_similar_images = list(sorted_similarities.keys())[:N]: This line extracts the top N images with the lowest similarity scores from the sorted_similarities dictionary. These are the images that are most similar to the query image. The top_similar_images variable contains a list of filenames of these top N similar images.
+
+print("Top {} similar images:".format(N)): This line prints a message indicating that it's about to display the top N similar images.
+
+The following loop then iterates through the top N image filenames (image variable) and does the following for each image:
+
+image_path = os.path.join(Image_databases, image): Constructs the full path to the image in the database by joining the Image_databases (which you've set as "query_images") with the current image filename.
+
+img = cv2.imread(image_path): Reads and loads the image using OpenCV. img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB): Converts the image from BGR format to RGB format for displaying with Matplotlib. plt.imshow(img): Displays the image using Matplotlib. plt.axis('OFF'): Turns off the axis labels in the Matplotlib plot. plt.show(): Shows the image.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/3e71a7fb-0144-4bbd-8322-c6e2cdac885a)
+
+This code will display the top N images that are most similar to the query image based on their similarity scores. It does this by sorting the images by similarity, selecting the top N, and displaying them using Matplotlib.
+
+
+
 
 
 
