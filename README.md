@@ -54,6 +54,7 @@ This variable specifies the target size for your images. In this case, the image
 This variable determines the batch size for your data generator. The batch size is the number of images processed in each iteration during training.
 
 ![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/397700ed-8f17-4c5f-b31e-6024c3e7a257)
+
 train_datagen and valid_datagen: These are instances of ImageDataGenerator from Keras. These generators are used for data augmentation and preprocessing. Here's a breakdown of the data augmentation options applied in the train_datagen:
 
 rescale: Images are rescaled so that their pixel values are in the range [0, 1].
@@ -69,4 +70,94 @@ zoom_range: Randomly zooms in on the images by up to 20%.
 horizontal_flip: Randomly flips the images horizontally (left to right).
 
 fill_mode: Determines how the generator fills in newly created pixels after applying transformations. In this case, it's set to 'nearest,' which means it will fill with the nearest available pixel value.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/83425a80-cd5f-4b3d-9d2c-04e27522770f)
+
+train_generator and valid_generator: These are data generators created using ImageDataGenerator to load and preprocess images from the training and validation directories. They are set up with the following parameters:
+
+flow_from_directory: This method reads and preprocesses images from the specified directory.
+
+train_dir and valid_dir: The directories from which images are loaded.
+
+target_size: The target image size is set to (100, 100).
+
+batch_size: The batch size is set to 32.
+
+class_mode:The class_mode is set to 'categorical,' which implies that this code is likely designed for a multi-class classification problem, where images are associated with one of multiple classes.
+
+These data generators are typically used in deep learning workflows for image classification tasks. They handle the loading, preprocessing, and batching of the training and validation data, making it easier to train deep learning models on large image datasets. The data augmentation applied in the training data generator helps increase model robustness by exposing it to various forms of the same image, which can improve generalization.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/dbd93339-1c41-4892-8fa3-b674aead509d)
+
+model = Sequential(): This line initializes a sequential model. A sequential model is a linear stack of layers, and you can add layers to it one by one in a sequential manner.
+
+model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(100, 100, 3)): This adds the first convolutional layer to the model. Here's what each argument does:
+
+32 is the number of filters (output channels) in this convolutional layer.
+
+(3, 3) specifies the size of the convolutional kernel (3x3).
+
+activation='relu' sets the activation function for this layer to the Rectified Linear Unit (ReLU).
+
+input_shape=(100, 100, 3) defines the shape of the input data. It expects 100x100 pixel RGB images (3 color channels).
+
+model.add(MaxPooling2D((2, 2)): This adds a max-pooling layer after the first convolutional layer. Max-pooling reduces the spatial dimensions of the feature maps, which helps in reducing the number of parameters and computation.
+
+The next two blocks of code (model.add(Conv2D(64, (3, 3), activation='relu') followed by model.add(MaxPooling2D((2, 2)) and model.add(Conv2D(128, (3, 3), activation='relu') followed by model.add(MaxPooling2D((2, 2))) add additional pairs of convolutional and max-pooling layers. These create deeper and more complex feature representations as you progress through the network.
+
+model.add(Flatten()): This layer flattens the 2D feature maps into a 1D vector. It's a necessary step before connecting to fully connected layers.
+
+model.add(Dense(128, activation='relu'): This adds a fully connected layer with 128 units and ReLU activation. This layer is responsible for learning higher-level features from the flattened feature vectors.
+
+model.add(Dense(3, activation='softmax'): This adds the output layer with 3 units and a softmax activation function. It's likely that this model is designed for a classification task with three classes. The softmax activation will provide probability distributions over these classes, and the model will make predictions based on the class with the highest probability.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/27c38ffb-a308-4e85-9e62-de032ca31367)
+
+optimizer='adam': This argument specifies the optimizer to be used during training. In this case, it's set to 'adam,' which is a popular and widely used optimization algorithm in deep learning. The Adam optimizer is known for its efficiency and effectiveness in training neural networks.
+
+loss='categorical_crossentropy': This argument specifies the loss function to be used during training. 'Categorical cross-entropy' (or 'categorical_crossentropy') is a common choice for multi-class classification problems, where the model is expected to predict one of several possible classes. This loss function quantifies the error between the predicted class probabilities and the actual class labels.
+
+metrics=['accuracy']: This argument specifies the evaluation metric(s) to be used during training and evaluation. In this case, it's set to 'accuracy,' which is a standard metric for classification tasks. It measures the proportion of correctly classified examples in the validation dataset.
+
+When we compile the model using this code, we are configuring it for training. The model will use the 'adam' optimizer to minimize the 'categorical_crossentropy' loss, and during training, it will keep track of the 'accuracy' metric to assess how well the model is performing on the training and validation data.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/19c42331-850a-47eb-a3f7-340bb62248c0)
+
+The provided code is used to train a deep learning model (model) on your dataset using a training generator (train_generator) and a validation generator (valid_generator). Let's break down what each part of the code does:
+
+epochs = 10: This line sets the number of training epochs. An epoch is one complete pass through the entire training dataset. In this case, the model will be trained for 10 epochs, meaning it will go through the training dataset 10 times, updating its weights to minimize the specified loss.
+
+history = model.fit(...): This line invokes the fit method of the model to start the training process. The fit method trains the model using the specified data generators and training parameters. Here's what each argument does:
+
+train_generator: This is the training data generator, which provides batches of training data to the model.
+
+steps_per_epoch: This parameter determines how many batches are processed in each epoch. It's set to train_generator.samples // batch_size, which ensures that the model goes through the entire training dataset once per epoch.
+
+validation_data: This is the validation data generator, used to evaluate the model's performance on a separate dataset during training.
+
+validation_steps: Similar to steps_per_epoch, this parameter determines how many batches are processed in each validation epoch. It's set to valid_generator.samples // batch_size.
+
+epochs: The number of training epochs, which is set to 10 in this case.
+
+After executing this code, the model will go through 10 epochs of training, during which it will update its weights using the training data and evaluate its performance on the validation data. The training and validation metrics (loss and accuracy) for each epoch will be recorded in the history object, which we can use to visualize and analyze the training progress. The model will be gradually optimized to make better predictions on the data, assuming that the architecture and data are suitable for the task.
+
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/a3a44bf2-9f95-436d-91ca-8912e37e735e)
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/49da36b6-03e3-4530-b0c8-eeb8632917ea)
+
+The provided code is used to evaluate the trained deep learning model on a validation dataset and then print the validation accuracy. Here's what each part of the code does:
+
+accuracy = model.evaluate(valid_generator)[1]: This line evaluates the model's performance on the validation dataset using the evaluate method. Specifically, it calculates the accuracy of the model's predictions on the validation data. The [1] index is used to extract the accuracy from the evaluation results.
+
+print("Validation Accuracy: {:.2f}%".format(accuracy * 100)):This line prints the validation accuracy as a percentage. It formats the accuracy value to have two decimal places and displays it as a percentage.
+
+So, when we run this code, it will calculate and print the validation accuracy of your trained model. This is a common practice in machine learning and deep learning to assess how well the model is performing on unseen data. The accuracy represents the proportion of correctly predicted samples in the validation dataset, expressed as a percentage.
+
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/59e3deda-3342-498d-880f-dd3fb34b2d0b)
+
+
+
+
+
+
 
