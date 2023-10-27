@@ -43,3 +43,14 @@ Dense is a fully connected layer, also known as a dense layer, used for classifi
 # from sklearn.model_selection import train_test_split: 
 This imports the train_test_split function from the sklearn.model_selection module. This function is used to split your dataset into training and testing sets, which is a common step when building and evaluating machine learning models.
 
+![image](https://github.com/Mimran0204/CNN-Implementation/assets/149146008/c57c97c6-aad9-4bae-9c61-fdc1c09a496a)
+
+# train_dir and valid_dir: 
+These variables specify the directories containing your training and validation datasets, respectively. In this case, both are set to 'hand_written_digits'. It's assumed that you have your image data organized within these directories, and you'll use these directories to generate training and validation data.
+
+# image_size: 
+This variable specifies the target size for your images. In this case, the images will be resized to 100x100 pixels.
+# batch_size:
+This variable determines the batch size for your data generator. The batch size is the number of images processed in each iteration during training.
+
+
